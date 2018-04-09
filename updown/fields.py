@@ -67,7 +67,7 @@ class RatingManager(object):
             kwargs['user'] = user
 
         try:
-            rating = Vote.objects.get(**kwargs)
+            rating = Vote.objects.filter(**kwargs).first()
             return rating.score
         except Vote.DoesNotExist:
             pass
@@ -111,7 +111,7 @@ class RatingManager(object):
             kwargs['ip_address'] = ip_address
 
         try:
-            rating, created = Vote.objects.get(**kwargs), False
+            rating, created = Vote.objects.filter(**kwargs).first(), False
         except Vote.DoesNotExist:
             kwargs.update(defaults)
             rating, created = Vote.objects.create(**kwargs), True
